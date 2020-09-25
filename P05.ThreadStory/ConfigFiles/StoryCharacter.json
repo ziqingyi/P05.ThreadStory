@@ -1,0 +1,30 @@
+[
+  {
+    "Name": "People1",
+
+    "Color": "Red",
+
+    "Experience": [ "P1Story1", "P1Story2", "P1Story3", "P1Story4", "P1Story5" ]
+  },
+  {
+    "Name": "People2",
+
+    "Color": "Yellow",
+
+    "Experience": [ "P2Story1", "P2Story2", "P2Story3", "P2Story4" ]
+  },
+  {
+    "Name": "People3",
+
+    "Color": "Green",
+
+    "Experience": [ "P3Story1", "P3Story2", "P3Story3", "P3Story4", "P3Story5" ]
+  },
+  {
+    "Name": "People4",
+
+    "Color": "Blue",
+
+    "Experience": [ "P4Story1", "P4Story2", "P4Story3", "P4Story4", "P4Story5", "P4Story6" ]
+  }
+]
