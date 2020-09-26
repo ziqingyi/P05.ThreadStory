@@ -48,7 +48,19 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="ConfigFiles\StoryCharacter.json" />
+    <None Include="ConfigFiles\StoryCharacter.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\P05.ThreadFramework\P05.ThreadFramework.csproj">
+      <Project>{6D77AB98-1EC8-4BDD-B01A-193F081156D2}</Project>
+      <Name>P05.ThreadFramework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\P05.ThreadModel\P05.ThreadModel.csproj">
+      <Project>{A6605E24-E6DB-4F6A-8FDF-ADEE033D13DA}</Project>
+      <Name>P05.ThreadModel</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
