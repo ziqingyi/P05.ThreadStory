@@ -69,16 +69,17 @@ namespace P05.ThreadFramework.Serialize
 
        //**************************Deserialize**************************************************
        // string being deserialized to Object
-       public static T ToObject<T>(string content) where T : new()
+       public static T XMLstringToObject<T>(string content) where T : new()
        {
            using (MemoryStream stream = new MemoryStream(Encoding.UTF8.GetBytes(content)))
            {
                 XmlSerializer xmlFormat = new XmlSerializer(typeof(T));
-                return (T) xmlFormat.Deserialize(stream);
+                T t = (T) xmlFormat.Deserialize(stream);
+                return t;
            }
        }
        //file being deserialized to object
-       public static T FileToOneObject<T>(string fileName) where T : new()
+       public static T XMLFileToOneObject<T>(string fileName) where T : new()
        {
            //string CurrentXMLPath = Constant.SerializeDataPath;
            //fileName = Path.Combine(CurrentXMLPath, @"users.xml");
@@ -88,12 +89,13 @@ namespace P05.ThreadFramework.Serialize
                xRoot.ElementName = "User";
                xRoot.IsNullable = true;
                XmlSerializer xmlFormat = new XmlSerializer(typeof(T), xRoot);
-               return (T) xmlFormat.Deserialize(fStream);
+               T t = (T) xmlFormat.Deserialize(fStream);
+               return t;
            }
        }
 
        //file being deserialized to an array of object
-       public static T[] FileToObjects<T>(string fileName) where T : new()
+       public static T[] XMLFileToObjects<T>(string fileName) where T : new()
        {
            //string CurrentXMLPath = Constant.SerializeDataPath;
            //fileName = Path.Combine(CurrentXMLPath, @"users.xml");
@@ -103,7 +105,8 @@ namespace P05.ThreadFramework.Serialize
                xRoot.ElementName = "Users";
                xRoot.IsNullable = true;
                XmlSerializer XmlFormat = new XmlSerializer(typeof(T[]), xRoot);
-               return (T[]) XmlFormat.Deserialize(fStream);
+               T[] tList = (T[]) XmlFormat.Deserialize(fStream);
+               return tList;
            }
        }
 
