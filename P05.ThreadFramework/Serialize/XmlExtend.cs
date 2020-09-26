@@ -11,7 +11,7 @@ namespace P05.ThreadFramework.Serialize
     public static class XmlExtend
     {
         //T to Xml
-        public static string ParseToXml<T>(this T model, string fatherNodeName)
+        public static string ParseTtoXml<T>(this T model, string fatherNodeName)
         {
             XmlDocument xmldoc = new XmlDocument();
             XmlElement modelRootNode = xmldoc.CreateElement(fatherNodeName);
@@ -36,7 +36,7 @@ namespace P05.ThreadFramework.Serialize
         }
 
         //xml to object, default: fatherNodeName="body"
-        public static T ParseToModel<T>(this string xml, string fatherNodeName = "body") where T : class, new()
+        public static T ParseXMLstringToModel<T>(this string xml, string fatherNodeName = "body") where T : class, new()
         {
             if (string.IsNullOrEmpty(xml))
             {
@@ -67,7 +67,7 @@ namespace P05.ThreadFramework.Serialize
         }
 
         //XML to object list
-        public static List<T> XmlToObjectList<T>(this string xml, string headtag) where T : new()
+        public static List<T> XMLstringToObjectList<T>(this string xml, string headtag) where T : new()
         {
             List<T> list = new List<T>();
             XmlDocument doc = new XmlDocument();
