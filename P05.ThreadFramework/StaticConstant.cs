@@ -10,6 +10,8 @@ namespace P05.ThreadFramework
     public class StaticConstant
     {
 
+        //get serialized data path
+        public static string SerializeDataPath = ConfigurationManager.AppSettings["SerializeDataPath"];
 
 
         #region file location
