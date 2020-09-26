@@ -11,35 +11,42 @@ namespace P05.ThreadFramework.Serialize
 {
     public class JsonHelper
     {
-        public static string ObjectToString<T>(T obj)
+        
+        public static string ObjectToJsonStringJS<T>(T obj)
         {
             JavaScriptSerializer jss= new JavaScriptSerializer();
-            return jss.Serialize(obj);
+            string jsonString = jss.Serialize(obj);
+            return jsonString;
+        }
+        public static string ObjectToJsonStringJsonConvert<T>(T obj)
+        {
+            string JsonString = JsonConvert.SerializeObject(obj);
+            return JsonString;
         }
 
-        public static T StringToObject<T>(string content)
+        public static T JsonStringToObjectJS<T>(string content)
         {
             JavaScriptSerializer jss = new JavaScriptSerializer();
-            return jss.Deserialize<T>(content);
+            T t = jss.Deserialize<T>(content);
+            return t;
         }
 
-        public static string ToJson<T>(T obj)
+        public static T JsonStringToObjectJsonConvert<T>(string content)
         {
-            return JsonConvert.SerializeObject(obj);
+            T t =JsonConvert.DeserializeObject<T>(content);
+            return t;
         }
 
-        public static T ToObject<T>(string content)
-        {
-            return JsonConvert.DeserializeObject<T>(content);
-        }
 
+
+        //read Json string from file
         public static T JsonFileToObject<T>(string filename)
         {
             string fullname = Path.Combine(StaticConstant.JsonPath,filename);
             if (File.Exists(fullname))
             {
                 string json = File.ReadAllText(fullname, Encoding.UTF8);
-                return JsonConvert.DeserializeObject<T>(json);
+                return JsonStringToObjectJS<T>(json);
             }
             else
             {
