@@ -26,7 +26,7 @@ namespace P05.ThreadFramework.Log
             {
                 foreach (char c in msg.ToCharArray())
                 {
-                    Thread.Sleep(50);
+                    Thread.Sleep(5);
                     Console.ForegroundColor = color;
                     Console.Write($"{c}");
                 }
