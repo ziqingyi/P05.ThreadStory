@@ -25,12 +25,13 @@ namespace P05.ThreadStory
                 Stopwatch sw = new Stopwatch();
                 sw.Start();
 
+                List<Task> tlist = new List<Task>();
                 bool FirstStoryDone = false;// first story started must print opening remarks.
 
                 //iterate all characters' object and start to print their stories 
                 foreach (StoryCharacter sc in scList)
                 {
-                    Action printExperienceList = () =>
+                    Action<object> printExperienceList = o =>
                     {
                         foreach (var exp in sc.Experience)
                         {
@@ -40,43 +41,47 @@ namespace P05.ThreadStory
                             {
                                 lock (lockObj)
                                 {
-                                    string idtime1 = getThreadTime(); 
-                                    LogHelper.LogConsole(exp+idtime1, sc.color);
+                                    //string idtime1 = getThreadTime(); 
+                                    LogHelper.LogConsole(o.ToString() + " " + exp + getThreadTime(), sc.color);
                                     if (FirstStoryDone == false)
                                     {
-                                        string idtime2 = getThreadTime();
-                                        LogHelper.LogConsole("The stories begin......"+idtime2,ConsoleColor.White);
+                                        //string idtime2 = getThreadTime();
+                                        LogHelper.LogConsole("The stories begin......"+ getThreadTime(), ConsoleColor.White);
                                         FirstStoryDone = true;
                                     }
                                 }
                             }
                             else
                             {
-                                string idtime = getThreadTime();
-                                LogHelper.LogConsole(exp + idtime, sc.color);
+                                //string idtime = getThreadTime();
+                                LogHelper.LogConsole(o.ToString() + " " + exp + getThreadTime(), sc.color);
                             }
                         }
                     };
 
 
-                    Task.Run(printExperienceList);
+                    tlist.Add(Task.Factory.StartNew(printExperienceList, sc.Name));
 
 
 
                 }
 
+                //anyone finish all stories will print below 
+                Task.Factory.ContinueWhenAny(tlist.ToArray(), t =>
+                {
+                    //string idtime = getThreadTime();
+                    LogHelper.LogConsole($"{t.AsyncState} finish all stories......" + getThreadTime() , ConsoleColor.White);
+                });
 
 
+                //all stories finish will print below
+                Task.Factory.ContinueWhenAll(tlist.ToArray(), tArray =>
+                {
 
+                    sw.Stop();
 
-
-                //Task.Factory.ContinueWhenAny(taskList.ToArray(), rArray =>
-                //{
-                //    string idtime = getThreadTime();
-                //    LogHelper.LogConsole("The stories begin......"+idtime,ConsoleColor.White);
-                //});
-
-
+                    LogHelper.LogConsole($"The stories come to the End*********Total: {sw.ElapsedMilliseconds} ms" + getThreadTime(), ConsoleColor.White);
+                });
 
 
 
