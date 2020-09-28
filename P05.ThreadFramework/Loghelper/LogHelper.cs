@@ -19,18 +19,26 @@ namespace P05.ThreadFramework.Log
         }
         private static readonly object LogLock = new object();
 
-        public static void LogConsole(string msg, ConsoleColor color)
+        public static void LogConsole(string msg,bool appendTimeThread, ConsoleColor color)
         {
             lock (LogLock)
             {
                 foreach (char c in msg.ToCharArray())
                 {
-                    //Thread.Sleep(5);
+                    Thread.Sleep(5);
                     Console.ForegroundColor = color;
                     Console.Write($"{c}");
                 }
+
+                string ThreadIdTime = "";
+                if (appendTimeThread)
+                {
+                    ThreadIdTime = getThreadTime();
+                    Console.Write(ThreadIdTime);
+                }
+
                 Console.WriteLine(); 
-                Log(msg);//log files put into lock--make sure early print, get lock early and print early. 
+                Log(msg + ThreadIdTime);//log files put into lock--make sure early print, get lock early and print early. 
             }
         }
 
@@ -44,7 +52,7 @@ namespace P05.ThreadFramework.Log
                 {
                     using (StreamWriter sw = File.AppendText(fullPath))
                     {
-                        sw.WriteLine(string.Format("{0}:{1}", DateTime.Now, msg));
+                        sw.WriteLine(String.Format("{0}:{1}", DateTime.Now, msg));
                     }
                 }
             }
@@ -53,6 +61,18 @@ namespace P05.ThreadFramework.Log
                 Console.WriteLine(e);
                 throw;
             }
+        }
+
+        /// <summary>
+        ///append thread and time at the end of msg inside lock, get lock early and print early.
+        /// as thread execute early not necessarily get lock early. 
+        /// </summary>
+        /// <returns></returns>
+        public static string getThreadTime()
+        {
+            string threadId = Thread.CurrentThread.ManagedThreadId.ToString("00");
+            string time = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff");
+            return " In Thread: " + threadId + " Time: " + time;
         }
     }
 }
