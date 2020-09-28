@@ -42,10 +42,9 @@ namespace P05.ThreadStory
                                 lock (lockObj)
                                 {
                                     //string idtime1 = getThreadTime(); 
-                                    LogHelper.LogConsole(o.ToString() + " " + exp + getThreadTime(), sc.color);
+                                    LogHelper.LogConsole(o.ToString() + "--" + exp + getThreadTime(), sc.color);
                                     if (FirstStoryDone == false)
                                     {
-                                        //string idtime2 = getThreadTime();
                                         LogHelper.LogConsole("The stories begin......"+ getThreadTime(), ConsoleColor.White);
                                         FirstStoryDone = true;
                                     }
@@ -53,14 +52,20 @@ namespace P05.ThreadStory
                             }
                             else
                             {
-                                //string idtime = getThreadTime();
                                 LogHelper.LogConsole(o.ToString() + " " + exp + getThreadTime(), sc.color);
                             }
+
+                            if (cts.IsCancellationRequested)
+                            {
+                                break;//stop the following stories. 
+                            }
+
+
                         }
                     };
 
 
-                    tlist.Add(Task.Factory.StartNew(printExperienceList, sc.Name));
+                    tlist.Add(Task.Factory.StartNew(printExperienceList, sc.Name, cts.Token));
 
 
 
@@ -69,18 +74,40 @@ namespace P05.ThreadStory
                 //anyone finish all stories will print below 
                 Task.Factory.ContinueWhenAny(tlist.ToArray(), t =>
                 {
-                    //string idtime = getThreadTime();
-                    LogHelper.LogConsole($"{t.AsyncState} finish all stories......" + getThreadTime() , ConsoleColor.White);
+
+                    if (!cts.IsCancellationRequested)
+                    {
+                        LogHelper.LogConsole($"{t.AsyncState} finish all stories......" + getThreadTime() , ConsoleColor.White);
+                    }
+                    
                 });
+
+
+                //start new thread for cancel all
+                Task.Run(() =>
+                {
+                    while (new Random().Next(2000, 2030) == DateTime.Now.Year)
+                    {
+                        Thread.Sleep(10);
+                    }
+
+                    cts.Cancel();
+                    LogHelper.LogConsole("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" + getThreadTime(), ConsoleColor.White);
+
+                });
+
+
 
 
                 //all stories finish will print below
                 Task.Factory.ContinueWhenAll(tlist.ToArray(), tArray =>
                 {
+                    if (!cts.IsCancellationRequested)
+                    {
+                        sw.Stop();
+                        LogHelper.LogConsole($"The stories come to the End*********Total: {sw.ElapsedMilliseconds} ms" + getThreadTime(), ConsoleColor.White);
+                    }
 
-                    sw.Stop();
-
-                    LogHelper.LogConsole($"The stories come to the End*********Total: {sw.ElapsedMilliseconds} ms" + getThreadTime(), ConsoleColor.White);
                 });
 
 
