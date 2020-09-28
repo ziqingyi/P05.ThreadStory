@@ -102,7 +102,7 @@ namespace P05.ThreadStory
 
                     while (isMonitor &&  ran != DateTime.Now.Year)
                     {
-                        ran = new Random().Next(10, 2090);
+                        ran = new Random().Next(2010, 2090);
                         Thread.Sleep(10);
                     }
                     
