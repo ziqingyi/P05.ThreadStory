@@ -37,23 +37,26 @@ namespace P05.ThreadStory
                         {
                             //check first story being printed first, then try get lock ,
                             //once into lock, do something must do, then check again for opening remark.
-                            if (FirstStoryDone == false)
+
+                            if (FirstStoryDone == false)//some threads start with check first story
                             {
-                                lock (lockObj)
+                                lock (lockObj)  //some threads wait for lockObj, only one goes into lock each time.
                                 {
 
 
                                     if (!cts.IsCancellationRequested)
                                     {
+
                                         LogHelper.LogConsole(o.ToString() + "--" + exp + getThreadTime(), sc.color);
+
                                         if (FirstStoryDone == false)
                                         {
+
                                             LogHelper.LogConsole("The stories begin......" + getThreadTime(), ConsoleColor.White);
                                             FirstStoryDone = true;
+
                                         }
                                     }
-
-
 
                                 }
                             }
@@ -62,7 +65,6 @@ namespace P05.ThreadStory
 
                                 if (!cts.IsCancellationRequested)
                                 {  LogHelper.LogConsole(o.ToString() + " " + exp + getThreadTime(), sc.color);}
-
 
 
                             }

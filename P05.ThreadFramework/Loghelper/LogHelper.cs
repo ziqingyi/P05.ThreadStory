@@ -21,16 +21,16 @@ namespace P05.ThreadFramework.Log
 
         public static void LogConsole(string msg, ConsoleColor color)
         {
-            Log(msg);
             lock (LogLock)
             {
                 foreach (char c in msg.ToCharArray())
                 {
-                    Thread.Sleep(5);
+                    //Thread.Sleep(5);
                     Console.ForegroundColor = color;
                     Console.Write($"{c}");
                 }
-                Console.WriteLine();
+                Console.WriteLine(); 
+                Log(msg);//log files put into lock--make sure early print, get lock early and print early. 
             }
         }
 
