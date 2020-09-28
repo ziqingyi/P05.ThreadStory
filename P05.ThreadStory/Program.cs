@@ -41,18 +41,30 @@ namespace P05.ThreadStory
                             {
                                 lock (lockObj)
                                 {
-                                    //string idtime1 = getThreadTime(); 
-                                    LogHelper.LogConsole(o.ToString() + "--" + exp + getThreadTime(), sc.color);
-                                    if (FirstStoryDone == false)
+
+
+                                    if (!cts.IsCancellationRequested)
                                     {
-                                        LogHelper.LogConsole("The stories begin......"+ getThreadTime(), ConsoleColor.White);
-                                        FirstStoryDone = true;
+                                        LogHelper.LogConsole(o.ToString() + "--" + exp + getThreadTime(), sc.color);
+                                        if (FirstStoryDone == false)
+                                        {
+                                            LogHelper.LogConsole("The stories begin......" + getThreadTime(), ConsoleColor.White);
+                                            FirstStoryDone = true;
+                                        }
                                     }
+
+
+
                                 }
                             }
                             else
                             {
-                                LogHelper.LogConsole(o.ToString() + " " + exp + getThreadTime(), sc.color);
+
+                                if (!cts.IsCancellationRequested)
+                                {  LogHelper.LogConsole(o.ToString() + " " + exp + getThreadTime(), sc.color);}
+
+
+
                             }
 
                             if (cts.IsCancellationRequested)
@@ -99,7 +111,10 @@ namespace P05.ThreadStory
                         cts.Cancel();
                         LogHelper.LogConsole("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"+ ran + getThreadTime(), ConsoleColor.White);
                     }
-
+                    else
+                    {
+                        LogHelper.LogConsole("no monitor is requiredxxxxxxxxxxx" + ran + getThreadTime(), ConsoleColor.White);
+                    }
                 });
 
 
