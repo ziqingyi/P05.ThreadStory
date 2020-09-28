@@ -47,12 +47,12 @@ namespace P05.ThreadStory
                                     if (!cts.IsCancellationRequested)
                                     {
 
-                                        LogHelper.LogConsole(o.ToString() + "--" + exp + getThreadTime(), sc.color);
+                                        LogHelper.LogConsole(o.ToString() + "--" + exp ,true, sc.color);
 
                                         if (FirstStoryDone == false)
                                         {
 
-                                            LogHelper.LogConsole("The stories begin......" + getThreadTime(), ConsoleColor.White);
+                                            LogHelper.LogConsole("The stories begin......", true, ConsoleColor.White);
                                             FirstStoryDone = true;
 
                                         }
@@ -64,7 +64,7 @@ namespace P05.ThreadStory
                             {
 
                                 if (!cts.IsCancellationRequested)
-                                {  LogHelper.LogConsole(o.ToString() + " " + exp + getThreadTime(), sc.color);}
+                                {  LogHelper.LogConsole(o.ToString() + " " + exp, true, sc.color);}
 
 
                             }
@@ -91,7 +91,7 @@ namespace P05.ThreadStory
 
                     if (!cts.IsCancellationRequested)
                     {
-                        LogHelper.LogConsole($"{t.AsyncState} finish all stories......" + getThreadTime() , ConsoleColor.White);
+                        LogHelper.LogConsole($"{t.AsyncState} finish all stories......", true, ConsoleColor.White);
                     }
                     
                 });
@@ -104,18 +104,18 @@ namespace P05.ThreadStory
 
                     while (isMonitor &&  ran != DateTime.Now.Year)
                     {
-                        ran = new Random().Next(2010, 2090);
+                        ran = new Random().Next(1000, 2090);
                         Thread.Sleep(10);
                     }
                     
                     if (isMonitor)
                     {
                         cts.Cancel();
-                        LogHelper.LogConsole("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"+ ran + getThreadTime(), ConsoleColor.White);
+                        LogHelper.LogConsole("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"+ ran, true, ConsoleColor.White);
                     }
                     else
                     {
-                        LogHelper.LogConsole("no monitor is requiredxxxxxxxxxxx" + ran + getThreadTime(), ConsoleColor.White);
+                        LogHelper.LogConsole("no monitor is requiredxxxxxxxxxxx" + ran, true, ConsoleColor.White);
                     }
                 });
 
@@ -128,7 +128,7 @@ namespace P05.ThreadStory
                     {
                         isMonitor = false;
                         sw.Stop();
-                        LogHelper.LogConsole($"The stories come to the End*********Total: {sw.ElapsedMilliseconds} ms" + getThreadTime(), ConsoleColor.White);
+                        LogHelper.LogConsole($"The stories come to the End*********Total: {sw.ElapsedMilliseconds} ms", true, ConsoleColor.White);
                     }
 
                 });
@@ -144,19 +144,10 @@ namespace P05.ThreadStory
             }
             catch (Exception e)
             {
-                LogHelper.LogConsole(e.Message,ConsoleColor.DarkBlue);
+                LogHelper.LogConsole(e.Message, true, ConsoleColor.DarkBlue);
                 throw;
             }
             Console.ReadKey();
         }
-
-        public static string getThreadTime()
-        {
-            string threadId = Thread.CurrentThread.ManagedThreadId.ToString("00");
-            string time = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff");
-            return " In Thread: " + threadId + " Time: " + time;
-        }
-
-
     }
 }
