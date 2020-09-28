@@ -86,16 +86,21 @@ namespace P05.ThreadStory
                 //start new thread for cancel all
                 Task.Run(() =>
                 {
-                    while (new Random().Next(2000, 2030) == DateTime.Now.Year)
+                    int ran = 0;
+
+                    while (isMonitor &&  ran != DateTime.Now.Year)
                     {
+                        ran = new Random().Next(10, 2090);
                         Thread.Sleep(10);
                     }
-
-                    cts.Cancel();
-                    LogHelper.LogConsole("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" + getThreadTime(), ConsoleColor.White);
+                    
+                    if (isMonitor)
+                    {
+                        cts.Cancel();
+                        LogHelper.LogConsole("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"+ ran + getThreadTime(), ConsoleColor.White);
+                    }
 
                 });
-
 
 
 
@@ -104,6 +109,7 @@ namespace P05.ThreadStory
                 {
                     if (!cts.IsCancellationRequested)
                     {
+                        isMonitor = false;
                         sw.Stop();
                         LogHelper.LogConsole($"The stories come to the End*********Total: {sw.ElapsedMilliseconds} ms" + getThreadTime(), ConsoleColor.White);
                     }
