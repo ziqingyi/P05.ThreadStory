@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace P05.ThreadFramework.Log
+namespace P05.ThreadFramework.Helper
 {
     public class LogHelper
     {
