@@ -21,15 +21,15 @@ namespace P05.ThreadFramework.Helper
 
         public static void LogConsole(string msg,bool appendTimeThread, ConsoleColor color)
         {
+            
             lock (LogLock)
             {
+                Console.ForegroundColor = color;
                 foreach (char c in msg.ToCharArray())
                 {
-                    Thread.Sleep(5);
-                    Console.ForegroundColor = color;
+                    Thread.Sleep(5);                
                     Console.Write($"{c}");
                 }
-
                 string ThreadIdTime = "";
                 if (appendTimeThread)
                 {
@@ -37,7 +37,8 @@ namespace P05.ThreadFramework.Helper
                     Console.Write(ThreadIdTime);
                 }
 
-                Console.WriteLine(); 
+                Console.WriteLine();
+                Console.ForegroundColor = ConsoleColor.White;
                 Log(msg + ThreadIdTime);//log files put into lock--make sure early print, get lock early and print early. 
             }
         }
